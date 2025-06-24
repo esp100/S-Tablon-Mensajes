@@ -41,4 +41,4 @@ def get_messages():
 
 if __name__ == '__main__':
     print(f'Servidor REST centralizado iniciado en http://{HOST}:{PORT}')
-    app.run(host=HOST, port=PORT, debug=True)
+    app.run()
