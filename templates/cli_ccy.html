@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<head>
+    <title>Tablón de mensajes</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        #chat-area { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; margin-bottom: 10px; }
+        .message { margin-bottom: 5px; cursor: pointer; }
+        #input-area input[type="text"] { width: 70%; padding: 8px; margin-right: 5px; }
+        #input-area button { padding: 8px 15px; }
+        #decrypted-area { margin-top: 10px; border: 1px solid #eee; padding: 10px; }
+        #decrypted-area p { margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <h1>Tablón de mensajes</h1>
+
+    <div id="tablon">
+        </div>
+
+    <script>
+        const messageArea = document.getElementById('tablon'); 
+        const serverUrl = 'http://127.0.0.1:5000';  
+
+        async function fetchMessages() {
+            try {
+                const response = await fetch(`${serverUrl}/receive`);
+                if (response.ok) {
+                    const data = await response.json();
+                    messageArea.innerHTML = '';  
+                    data.forEach(msg => {
+                        const messageDiv = document.createElement('div');
+                        messageDiv.classList.add('message');
+                        messageDiv.innerHTML = `<h3>${msg.sender}:</h3> ${msg.content}<br><br>`; 
+                        messageArea.appendChild(messageDiv);
+                    });
+                    // Mantener el scroll en la parte inferior
+                    messageArea.scrollTop = messageArea.scrollHeight;
+                } else {
+                    console.error('Error al obtener los mensajes:', response.status);
+                    alert("Error al obtener los mensajes");
+                }
+            } catch (error) {
+                console.error('Error de red:', error);
+                alert('Error de red');
+            }
+        } 
+        // Cargar los mensajes iniciales  
+        fetchMessages();
+        setInterval(fetchMessages, 2000); // Actualizar cada 2 segundos
+    </script>
+</body>
+</html>

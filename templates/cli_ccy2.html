@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<head>
+    <title>Envio de mensajes</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        #chat-area { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; margin-bottom: 10px; }
+        .message { margin-bottom: 5px; cursor: pointer; }
+        #input-area input[type="text"] { width: 70%; padding: 8px; margin-right: 5px; }
+        #input-area button { padding: 8px 15px; }
+        #decrypted-area { margin-top: 10px; border: 1px solid #eee; padding: 10px; }
+        #decrypted-area p { margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <h1>Envio de mensajes</h1>
+ 
+
+    <div id="input-area">
+        <input type="text" id="tittle" placeholder="Título">
+        <input type="text" id="message" placeholder="Escribe tu mensaje">
+        <button onclick="sendMessage()">Enviar</button>
+    </div>
+ 
+    <script>
+        const messageInput = document.getElementById('message');
+        const tittleInput = document.getElementById('tittle'); 
+        const serverUrl = 'http://127.0.0.1:5000';  
+ 
+        async function sendMessage() {
+            const tittle = tittleInput.value.trim();
+            const message = messageInput.value.trim();
+
+            if (!tittle) {
+                alert('Por favor, ingresa un título.');
+                return;
+            }
+
+            if (message) {
+                try {
+                    const response = await fetch(`${serverUrl}/send`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ tittle: tittle, message: message })
+                    });
+
+                    if (response.ok) {
+                        messageInput.value = ''; // Limpiar el input después de enviar 
+                    } else {
+                        console.error('Error al enviar el mensaje:', response.status);
+                        alert('Error al enviar el mensaje: '+response.status)
+                    }
+                } catch (error) {
+                    console.error('Error de red:', error);
+                    alert('Error de red: '+ error);
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>
