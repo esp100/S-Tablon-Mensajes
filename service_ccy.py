@@ -6,8 +6,8 @@ app = Flask(__name__)
 CORS(app)
 
 # Datos de conexión del servidor REST
-HOST = '127.0.0.1'
-PORT = 5000
+HOST = '0.0.0.0'
+PORT = 8000
 
 # Lista para almacenar los mensajes 
 messages = [] 
@@ -41,4 +41,4 @@ def get_messages():
 
 if __name__ == '__main__':
     print(f'Servidor REST centralizado iniciado en http://{HOST}:{PORT}')
-    app.run()
+    app.run(host=HOST, port=PORT)
