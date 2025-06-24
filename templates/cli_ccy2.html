@@ -25,8 +25,7 @@
  
     <script>
         const messageInput = document.getElementById('message');
-        const tittleInput = document.getElementById('tittle'); 
-        const serverUrl = 'http://127.0.0.1:5000';  
+        const tittleInput = document.getElementById('tittle');  
  
         async function sendMessage() {
             const tittle = tittleInput.value.trim();
@@ -39,7 +38,7 @@
 
             if (message) {
                 try {
-                    const response = await fetch(`${serverUrl}/send`, {
+                    const response = await fetch(`/send`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'

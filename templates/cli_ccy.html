@@ -20,12 +20,11 @@
         </div>
 
     <script>
-        const messageArea = document.getElementById('tablon'); 
-        const serverUrl = 'http://127.0.0.1:5000';  
+        const messageArea = document.getElementById('tablon');  
 
         async function fetchMessages() {
             try {
-                const response = await fetch(`${serverUrl}/receive`);
+                const response = await fetch(`/receive`);
                 if (response.ok) {
                     const data = await response.json();
                     messageArea.innerHTML = '';  
