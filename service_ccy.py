@@ -19,7 +19,7 @@ def home():
 
 
 @app.get('/publisher')
-def home():
+def publisher():
    return render_template('cli_ccy2.html')
 
 @app.route('/send', methods=['POST'])
@@ -31,6 +31,8 @@ def send_message():
     tittle = data['tittle']
     message = data['message'] 
     messages.append({'sender': tittle, 'content': message})
+    if len(messages)>50:
+        messages.pop(0)
     return jsonify({'status': 'Mensaje enviado y difundido'}), 200
 
 @app.route('/receive', methods=['GET'])
